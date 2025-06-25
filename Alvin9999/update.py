@@ -1,3 +1,4 @@
+import os
 import requests
 from bs4 import BeautifulSoup
 
@@ -34,7 +35,6 @@ def get_con(url,proxcon,filepath):
                     print('Found and wrote link:\n', link)         
     else:
         print('请求失败，状态码：', response.status_code)
-
 
 # 主程序
 if __name__ == "__main__":
