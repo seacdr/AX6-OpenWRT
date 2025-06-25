@@ -3,7 +3,7 @@ import requests
 from bs4 import BeautifulSoup
 
 # 配置信息
-filepath='Alvin9999/UPDATE.md'
+filepath='Alvin9999/update.md'
 ssr_url='https://github.com/Alvin9999/new-pac/wiki/ss%E5%85%8D%E8%B4%B9%E8%B4%A6%E5%8F%B7'
 v2ray_url='https://github.com/Alvin9999/new-pac/wiki/v2ray%E5%85%8D%E8%B4%B9%E8%B4%A6%E5%8F%B7'
 goflyway_url='https://github.com/Alvin9999/new-pac/wiki/Goflyway%E5%85%8D%E8%B4%B9%E8%B4%A6%E5%8F%B7'
