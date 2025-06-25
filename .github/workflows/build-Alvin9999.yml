@@ -49,7 +49,7 @@ jobs:
             git config --local user.email "actions@github.com"
             git add ${{ env.UPDATE_MD }}
             if ! git diff --cached --quiet; then
-              git commit -m "Auto update: $(date +'%Y-%m-%d %H:%M:%S')"
+              git commit -m "Auto update: $(TZ='Asia/Shanghai' date +'%Y-%m-%d %H:%M:%S')"
               git push
             else
               echo "No changes detected"
