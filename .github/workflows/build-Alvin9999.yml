@@ -3,7 +3,7 @@ name: Auto Update Alvin9999
 on:
   schedule:
     #- cron: '*/10 * * * *'  # 每 10 分钟执行一次
-    - cron: '0 * * * *'  # 每小时整点执行一次
+    - cron: '50 * * * *'  # 每小时50分执行
   workflow_dispatch:       # 支持手动触发
 
 permissions:
@@ -18,7 +18,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. 检出主仓库（包含 README.md 和脚本）
+      # 1. 清除工作流运行记录
+      - name: Delete workflow runs
+        uses: Mattraks/delete-workflow-runs@v2
+        with:
+          token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          retain_days: 0
+          keep_minimum_runs: 2
+          
+      # 2. 检出主仓库（包含 README.md 和脚本）
       - name: Checkout Main Repository
         uses: actions/checkout@v3
         with:
