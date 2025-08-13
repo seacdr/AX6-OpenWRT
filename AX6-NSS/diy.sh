@@ -23,15 +23,33 @@ function git_sparse_clone() {
 #git_sparse_clone main https://github.com/kiddin9/kwrt-packages vlmcsd
 #git_sparse_clone main https://github.com/kiddin9/kwrt-packages luci-app-vlmcsd
 #git_sparse_clone main https://github.com/kiddin9/kwrt-packages luci-app-socat
-#git_sparse_clone main https://github.com/kiddin9/kwrt-packages luci-app-openvpn-server
 
-# Remove packages
-#删除lean库中的插件，使用自定义源中的包。
+# 替换luci-app-openvpn-server imm源的启动不了服务！
+#rm -rf feeds/luci/applications/luci-app-openvpn-server
+#git_sparse_clone main https://github.com/kiddin9/kwrt-packages luci-app-openvpn-server
+# 调整 openvpn-server 到 VPN 菜单
+#sed -i 's/services/vpn/g' package/luci-app-openvpn-server/luasrc/controller/*.lua
+#sed -i 's/services/vpn/g' package/luci-app-openvpn-server/luasrc/model/cbi/openvpn-server/*.lua
+#sed -i 's/services/vpn/g' package/luci-app-openvpn-server/luasrc/view/openvpn/*.htm
+
+#git clone -b js https://github.com/papagaye744/luci-theme-design package/luci-theme-design
+
+#替换luci-app-socat为https://github.com/chenmozhijin/luci-app-socat
+#rm -rf feeds/luci/applications/luci-app-socat
+#git_sparse_clone main https://github.com/chenmozhijin/luci-app-socat luci-app-socat
+
+#删除库中的插件，使用自定义源中的包。
+#rm -rf feeds/luci/themes/luci-theme-argon
+#rm -rf feeds/luci/applications/luci-app-argon-config
+#rm -rf feeds/luci/applications/luci-app-ddns-go
+#rm -rf feeds/packages/net/ddns-go
 #rm -rf feeds/packages/net/alist
 #rm -rf feeds/luci/applications/luci-app-alist
-#rm -rf feeds/packages/net/mosdns
-#rm -rf feeds/luci/applications/luci-app-mosdns
+#rm -rf feeds/luci/applications/openwrt-passwall
 
 
-# Default IP
-#sed -i 's/192.168.1.1/192.168.2.2/g' package/base-files/files/bin/config_generate
+#修改默认IP
+sed -i 's/192.168.1./192.168.21./g' package/base-files/files/bin/config_generate
+
+#修改主机名
+sed -i "s/hostname='ImmortalWrt'/hostname='Redmi-AX6'/g" package/base-files/files/bin/config_generate
