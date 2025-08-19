@@ -1,5 +1,5 @@
 #!/bin/bash
-ip="192.168.31.1"
+ip="192.168.21.1"
 iname="Openwrt"
 ithemes="luci-theme-material"
 if [ ! -z "$1" ];then
@@ -98,12 +98,12 @@ fi
 #[ ! -e package/lean/default-settings/files/zzz-default-settings ] && sed -i "/DISTRIB_DESCRIPTION='*'/d" package/base-files/files/etc/openwrt_release
 [ ! -e package/lean/default-settings/files/zzz-default-settings ] && echo "DISTRIB_DESCRIPTION='莫小小($(TZ=UTC-8 date +%Y.%m.%d))@lean '" >> package/base-files/files/etc/openwrt_release
 
-# 修改默认wifi名称ssid为moyulong
-sed -i 's/ssid=OpenWrt/ssid=moyulong/g' package/kernel/mac80211/files/lib/wifi/mac80211.sh
+# 修改默认wifi名称ssid为Happy
+sed -i 's/ssid=OpenWrt/ssid=Happy/g' package/kernel/mac80211/files/lib/wifi/mac80211.sh
 
-# 修改默认wifi密码key为password
+# 修改默认wifi密码key为shuangshuang
 sed -i 's/encryption=none/encryption=psk2/g' package/kernel/mac80211/files/lib/wifi/mac80211.sh
-sed -i '/set wireless.default_radio${devidx}.encryption=psk2/a\set wireless.default_radio${devidx}.key=password' package/kernel/mac80211/files/lib/wifi/mac80211.sh
+sed -i '/set wireless.default_radio${devidx}.encryption=psk2/a\set wireless.default_radio${devidx}.key=shuangshuang' package/kernel/mac80211/files/lib/wifi/mac80211.sh
 
 # 设置密码为password
 sed -i 's/root:::0:99999:7:::/root:$1$V4UetPzk$CYXluq4wUazHjmCDBCqXF.:0:0:99999:7:::/' package/base-files/files/etc/shadow

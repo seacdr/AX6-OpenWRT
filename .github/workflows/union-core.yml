@@ -187,7 +187,7 @@ jobs:
           sudo -E apt-get -qq full-upgrade
           
           if [[ "${{ inputs.CORE_BRANCH }}" == *"openwrt-24.10"* ]]; then
-            sudo -E apt-get -qq install -y $(curl -fsSL https://raw.githubusercontent.com/rmoyulong/AX6-Actions_Lede/master/Ubuntu-2410.txt)
+            sudo -E apt-get -y install $(cat $GITHUB_WORKSPACE/Ubuntu-2210.txt)           
            else
             sudo -E apt-get -y install $(cat $GITHUB_WORKSPACE/Ubuntu-2204.txt)           
           fi
@@ -327,8 +327,9 @@ jobs:
       - name: 通用脚本
         run: |
           cd openwrt
-          
-          curl -L -o package/base-files/files/etc/banner https://raw.githubusercontent.com/rmoyulong/AX6-Actions_Lede/master/ax6/cats_banner
+
+          cp -rf ${GITHUB_WORKSPACE}/soc/banner package/base-files/files/etc/banner
+          # curl -L -o package/base-files/files/etc/banner https://raw.githubusercontent.com/rmoyulong/AX6-Actions_Lede/master/ax6/cats_banner
           ${GITHUB_WORKSPACE}/${CORE_DIY_P2_SH} "${{ env.CORE_IP }}" "${{ env.CORE_NAME }}" "${{ env.CORE_THEME }}" "${{ env.CORE_SOURCE }}"
           
           if [[ "${{ inputs.CORE_DIY_P3_SH }}" == *"false"* ]]; then
@@ -404,7 +405,7 @@ jobs:
           make -j$(nproc) || make -j1 || make -j1 V=s
           echo "status=success" >> $GITHUB_OUTPUT
           echo "FILE_DATE=_$(date +"%Y%m%d%H%M")" >> $GITHUB_ENV 
- 
+
       - name: 固件单独处理脚本
         run: |
           if [[ "${{ inputs.CORE_SOC_P1_SH }}" == *"false"* ]]; then
@@ -418,7 +419,7 @@ jobs:
           else
             ${GITHUB_WORKSPACE}/${CORE_SOC_P2_SH}
           fi
-          
+
       - name: 获得固件信息
         run: |
           cd openwrt/bin/targets/*/*

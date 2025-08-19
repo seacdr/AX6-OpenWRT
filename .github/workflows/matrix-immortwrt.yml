@@ -17,7 +17,7 @@ env:
   CORE_THEME: material
   CORE_URL: https://github.com/VIKINGYFY/immortalwrt
   CORE_BRANCH: main
-  CORE_IP: 192.168.31.1
+  CORE_IP: 192.168.21.1
   CORE_PW: password
   ################################
   #前置补丁 没有执行cd openwrt 在【更新订阅源】前执行
@@ -119,7 +119,13 @@ jobs:
         run: |
           sudo -E apt-get -qq update --fix-missing
           sudo -E apt-get -qq full-upgrade
-          sudo -E apt-get -y install $(cat $GITHUB_WORKSPACE/Ubuntu-2204.txt)
+          
+          if [[ "${{ env.CORE_BRANCH }}" == *"openwrt-24.10"* ]]; then
+            sudo -E apt-get -y install $(cat $GITHUB_WORKSPACE/Ubuntu-2210.txt)           
+           else
+            sudo -E apt-get -y install $(cat $GITHUB_WORKSPACE/Ubuntu-2204.txt)           
+          fi
+          
           sudo -E apt-get -qq autoremove --purge
           sudo -E apt-get -qq clean
           sudo -E systemctl daemon-reload
@@ -281,8 +287,9 @@ jobs:
       - name: 通用脚本
         run: |
           cd openwrt
-          
-          curl -L -o package/base-files/files/etc/banner https://raw.githubusercontent.com/rmoyulong/AX6-Actions_Lede/master/ax6/cats_banner
+
+          cp -rf ${GITHUB_WORKSPACE}/soc/banner package/base-files/files/etc/banner
+          # curl -L -o package/base-files/files/etc/banner https://raw.githubusercontent.com/rmoyulong/AX6-Actions_Lede/master/ax6/cats_banner
           ${GITHUB_WORKSPACE}/${CORE_DIY_P2_SH} "${{ env.CORE_IP }}" "${{ env.CORE_NAME }}" "${{ env.CORE_THEME }}" "${{ env.CORE_SOURCE }}"
           
           if [[ "${{ env.CORE_DIY_P3_SH }}" == *"false"* ]]; then

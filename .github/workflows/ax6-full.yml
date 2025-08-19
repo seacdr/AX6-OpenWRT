@@ -5,23 +5,26 @@
 name: AX6增强版-immortalwrt
 
 on:
-  #对应的是 UTC 时间，需要转换，0 代表北京时间8点，每个月1日/15日12点编译一次
+  #对应的是 UTC 时间，需要转换，0代表北京时间8点，每个月1/15日编译一次
+  schedule:
+    - cron: 0 0 1,15 * *
+
   #关闭则手动编译
   workflow_dispatch:
     inputs:
       theme:
-        description: '主题'     
+        description: '主题'
         required: true
-        default: 'material' 
+        default: 'argon'
         type: choice
         options:
-        - material
         - argon
+        - material
 
       OP_IP:
         description: 'IP选项'     
         required: true
-        default: '192.168.31.1'
+        default: '192.168.21.1'
         type: string
         
       OP_router:
@@ -32,9 +35,6 @@ on:
         options:
         - 主路由
         - 旁路由
-        
-  #schedule:
-    #- cron: 0 4 1,15 * *
 
 #CI权限
 permissions: write-all
@@ -79,7 +79,7 @@ jobs:
       #固件初始设置files soc 远程公用files文件夹下载 不适用设置为: false
       CORE_DIY_P3_SH: universal_init.sh
       #######################################
-      #openclash
+      #openclash    有false则不执行
       CORE_DIY_P4_SH: openclash64.sh
       # 删除不兼容的插件 -- remove 目录 不执行: false 已经执行cd openwrt
       CORE_remove: remove.sh
@@ -100,5 +100,6 @@ jobs:
       CORE_Pack: false
       #feeds.conf.default  -- patch 目录 使用默认的：false
       CORE_feeds_conf: false
+      #openclash内核类型 CORE_DIY_P4_SH设置才会生效
       CORE_META: openclash
       OP_router: ${{ github.event.inputs.OP_router }}
