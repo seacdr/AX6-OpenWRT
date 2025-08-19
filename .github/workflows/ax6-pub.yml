@@ -19,7 +19,7 @@ on:
         type: choice
         options:
         - argon
-        - material
+        - bootstrap
 
       OP_IP:
         description: 'IP选项'     
